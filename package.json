@@ -5,6 +5,7 @@
   "homepage": "https://ethorse.github.io/Betting",
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
+    "flipclock": "^0.7.8",
     "fractional": "^1.0.0",
     "gh-pages": "^1.0.0",
     "jquery": "^3.2.1",

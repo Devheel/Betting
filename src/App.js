@@ -8,11 +8,15 @@ import Amount from './Amount.js'
 import Header from './Header'
 import Contract from './Contract'
 import Result from './Result'
+import $ from 'jquery'
+import jQuery from 'jquery'
+// import 'jQuery'
+import FlipClock from './FlipClock-master/compiled/flipclock.js'
 import {Jumbotron, Container, Button, InputGroup, InputGroupButton, InputGroupAddon, Input, UncontrolledTooltip} from 'reactstrap'
 
 var Web3 = require('web3');
 var contract = require("truffle-contract");
-
+// var FlipClock=require("flipclock")
 var web3 = new Web3(Web3.givenProvider);
 
 var myContract = contract(ethorsejson);
@@ -75,6 +79,7 @@ class App extends Component {
     this.resetTimer=this.resetTimer.bind(this);
     this.componentLoad=this.componentLoad.bind(this);
     this.componentMounted=this.componentMounted.bind(this);
+    this.startFlipClock=this.startFlipClock.bind(this);
 
     //Find betting phase
     this.findStartTime=this.findStartTime.bind(this);
@@ -121,6 +126,25 @@ class App extends Component {
     })
 
     }
+  startFlipClock(time)
+  {
+    $(document).ready(function () {
+      console.log('ready')
+    var clock = $('.flipclock').FlipClock(time, {
+    clockFace: 'DailyCounter',
+    countdown: true,
+    autoStart: true,
+    callbacks: {
+      start: function() {
+        console.log('started')
+        $('.message').html('The clock has started!');
+      }
+    }
+  });
+  // $('.flipclock').addClass('twoDayDigits');
+  //   clock.start();
+    });
+  }
   componentLoad()
   {
     var ct = null;
@@ -151,6 +175,9 @@ class App extends Component {
           {
             ct=setInterval(self.findStartTime,950)
             self.setState({timeInterval:ct,betPhase:'Bet Open in ',startTime:start_time*1000})
+
+            self.startFlipClock(start_time-new Date()/1000)
+
           }
           else
           {
@@ -163,6 +190,7 @@ class App extends Component {
                 ct=setInterval(self.findLockTime,950)
 
                 self.setState({timeInterval:ct,betPhase:'Betting closes and Race starts in ',lockTime:((start_time+betting_duration)*1000)})
+                self.startFlipClock(start_time+betting_duration-new Date()/1000)
 
               }
               else{
@@ -176,6 +204,11 @@ class App extends Component {
                     let race_duration_utc=new Date(race_duration)
                     console.log(race_duration_utc)
                     self.setState({timeInterval:ct,betPhase:'Results in ',resultTime:((start_time+race_duration)*1000),duration:race_duration_utc.toString()})
+
+                    let time=parseInt(start_time)+parseInt(race_duration)-new Date()/1000
+                    console.log(time-new Date()/1000)
+                    self.startFlipClock(time)
+
                     }
                   else if(start_time>0){
 
@@ -534,6 +567,8 @@ class App extends Component {
               <br/>
               <br/>
               Race duration: {this.state.duration}
+              {/* <div className="flipclock" style={{"paddingTop":"3%",'left':'35%'}}/> */}
+              <div className="flipclock" style={{'left':'35%'}}/>
               <br/>
               <br/>
               Currently on Ropsten Testnet. Mainnet release coming soon. Be ready to bet with real money!

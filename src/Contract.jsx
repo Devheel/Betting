@@ -53,10 +53,10 @@ export default class Contract extends Component{
                   self.state.timejson.push(temp_json)
                   self.state.duplicatejson[address]=start_time_utc.toString()
                 })
-        if(address===addressjson.addresses[0].address)
-        {
-          self.setState({ currentTime:start_time_utc.toString() });
-        }
+        // if(address===addressjson.addresses[0].address)
+        // {
+        //   self.setState({ currentTime:start_time_utc.toString() });
+        // }
       })
     })
 

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.css';
+import './FlipClock-master/compiled/flipclock.css'
 import registerServiceWorker from './registerServiceWorker';
 // import Header from './Header'
 import Warning from './Warning'
