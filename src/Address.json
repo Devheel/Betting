@@ -1,5 +1,7 @@
 {
   "addresses":[
+    {"address": "0xc7e7f8eca08d0ed4adbb50ea280a5ee7ac71403c"},
+    {"address": "0x8d697095659836b55074b90241d6c1512e06b89b"},
     {"address": "0xe65896705ee2bf66dfbc86c1983826b5abdfffec"},
     {"address": "0xeca4c45a5625d629aea98a7c78a7e00b9ca1e681"},
     {"address": "0xa47E0981d814728782eb27818F1419c333f72e11"},
