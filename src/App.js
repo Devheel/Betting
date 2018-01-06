@@ -68,7 +68,8 @@ class App extends Component {
                 flashmessage:null,
                 contract:null,
                 duration:"",
-                bettingStatus:false
+                bettingStatus:false,
+                clock:null
                 };
     this.invokeContract=this.invokeContract.bind(this);
     this.convertMS=this.convertMS.bind(this);
@@ -128,6 +129,7 @@ class App extends Component {
     }
   startFlipClock(time)
   {
+    let self=this;
     $(document).ready(function () {
       console.log('ready')
     var clock = $('.flipclock').FlipClock(time, {
@@ -141,6 +143,7 @@ class App extends Component {
       }
     }
   });
+  self.setState({clock})
   // $('.flipclock').addClass('twoDayDigits');
   //   clock.start();
     });
@@ -161,6 +164,11 @@ class App extends Component {
 
       this.setState({"h":null,"d":null,"m":null,"s":null})
       // console.log(this.state.contract)
+    }
+    if(this.state.clock!=null)
+    {
+      this.state.clock.stop();
+      $('.flipclock').html('')
     }
     if(web3.currentProvider!=null)
     {

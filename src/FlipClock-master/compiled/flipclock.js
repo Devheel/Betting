@@ -10,7 +10,7 @@ var Base = function() {
 
 Base.extend = function(_instance, _static) { // subclass
 
-	"use strict";
+	// "use strict";
 
 	var extend = Base.prototype.extend;
 
@@ -32,7 +32,7 @@ Base.extend = function(_instance, _static) { // subclass
 	var constructor = proto.constructor;
 	var klass = proto.constructor = function() {
 		if (!Base._prototyping) {
-			if (this._constructing || this.constructor == klass) { // instantiation
+			if (this._constructing || this.constructor === klass) { // instantiation
 				this._constructing = true;
 				constructor.apply(this, arguments);
 				delete this._constructing;
@@ -50,12 +50,12 @@ Base.extend = function(_instance, _static) { // subclass
 	klass.prototype = proto;
 	klass.toString = this.toString;
 	klass.valueOf = function(type) {
-		//return (type == "object") ? klass : constructor; //-dean
-		return (type == "object") ? klass : constructor.valueOf();
+		//return (type === "object") ? klass : constructor; //-dean
+		return (type === "object") ? klass : constructor.valueOf();
 	};
 	extend.call(klass, _static);
 	// class initialisation
-	if (typeof klass.init == "function") klass.init();
+	if (typeof klass.init === "function") klass.init();
 	return klass;
 };
 
@@ -63,9 +63,9 @@ Base.prototype = {
 	extend: function(source, value) {
 		if (arguments.length > 1) { // extending with a name/value pair
 			var ancestor = this[source];
-			if (ancestor && (typeof value == "function") && // overriding a method?
+			if (ancestor && (typeof value === "function") && // overriding a method?
 				// the valueOf() comparison is to avoid circular references
-				(!ancestor.valueOf || ancestor.valueOf() != value.valueOf()) &&
+				(!ancestor.valueOf || ancestor.valueOf() !== value.valueOf()) &&
 				/\bbase\b/.test(value)) {
 				// get the underlying method
 				var method = value.valueOf();
@@ -79,7 +79,7 @@ Base.prototype = {
 				};
 				// point to the underlying method
 				value.valueOf = function(type) {
-					return (type == "object") ? value : method;
+					return (type === "object") ? value : method;
 				};
 				value.toString = Base.toString;
 			}
@@ -87,7 +87,7 @@ Base.prototype = {
 		} else if (source) { // extending with an object literal
 			var extend = Base.prototype.extend;
 			// if this object has a customised extend method then use it
-			if (!Base._prototyping && typeof this != "function") {
+			if (!Base._prototyping && typeof this !== "function") {
 				extend = this.extend || extend;
 			}
 			var proto = {toSource: null};
@@ -96,7 +96,7 @@ Base.prototype = {
 			// if we are prototyping then include the constructor
 			var i = Base._prototyping ? 0 : 1;
 			while (key = hidden[i++]) {
-				if (source[key] != proto[key]) {
+				if (source[key] !== proto[key]) {
 					extend.call(this, key, source[key]);
 
 				}
@@ -129,7 +129,7 @@ Base = Base.extend({
 
 	implement: function() {
 		for (var i = 0; i < arguments.length; i++) {
-			if (typeof arguments[i] == "function") {
+			if (typeof arguments[i] === "function") {
 				// if it's a function, call it
 				arguments[i](this.prototype);
 			} else {
@@ -158,7 +158,7 @@ var FlipClock;
 
 (function($) {
 
-	"use strict";
+	// "use strict";
 
 	/**
 	 * FlipFlock Helper
@@ -322,7 +322,7 @@ var FlipClock;
 
 (function($) {
 
-	"use strict";
+	// "use strict";
 
 	/**
 	 * The FlipClock Face class is the base class in which to extend
@@ -391,7 +391,7 @@ var FlipClock;
 		 */
 
 		createDivider: function(label, css, excludeDots) {
-			if(typeof css == "boolean" || !css) {
+			if(typeof css === "boolean" || !css) {
 				excludeDots = css;
 				css = label;
 			}
@@ -519,7 +519,7 @@ var FlipClock;
 		 */
 
 		decrement: function() {
-			if(this.factory.time.getTimeSeconds() == 0) {
+			if(this.factory.time.getTimeSeconds() === 0) {
 	        	this.factory.stop()
 			}
 			else {
@@ -538,7 +538,7 @@ var FlipClock;
 				var list = t.lists[i];
 
 				if(list) {
-					if(!doNotAddPlayClass && digit != list.digit) {
+					if(!doNotAddPlayClass && digit !== list.digit) {
 						list.play();
 					}
 
@@ -566,7 +566,7 @@ var FlipClock;
 
 (function($) {
 
-	"use strict";
+	// "use strict";
 
 	/**
 	 * The FlipClock Factory class is used to build the clock and manage
@@ -830,7 +830,7 @@ var FlipClock;
 
 			var lindex = index.toLowerCase();
 
-			if(typeof obj == "object") {
+			if(typeof obj === "object") {
 				lang = obj;
 			}
 
@@ -947,7 +947,7 @@ var FlipClock;
 
 (function($) {
 
-	"use strict";
+	// "use strict";
 
 	/**
 	 * The FlipClock List class is used to build the list used to create
@@ -1046,7 +1046,7 @@ var FlipClock;
 				this.digit = digit;
 			}
 
-			if(this.digit != this.lastDigit) {
+			if(this.digit !== this.lastDigit) {
 				var $delete = this.$el.find('.'+this.classes.before).removeClass(this.classes.before);
 
 				this.$el.find('.'+this.classes.active).removeClass(this.classes.active)
@@ -1130,11 +1130,11 @@ var FlipClock;
 		},
 
 		getNextDigit: function() {
-			return this.digit == 9 ? 0 : this.digit + 1;
+			return this.digit === 9 ? 0 : this.digit + 1;
 		},
 
 		getPrevDigit: function() {
-			return this.digit == 0 ? 9 : this.digit - 1;
+			return this.digit === 0 ? 9 : this.digit - 1;
 		}
 
 	});
@@ -1154,7 +1154,7 @@ var FlipClock;
 
 (function($) {
 
-	"use strict";
+	// "use strict";
 
 	/**
 	 * Capitalize the first letter in a string
@@ -1202,7 +1202,7 @@ var FlipClock;
 
 (function($) {
 
-	"use strict";
+	// "use strict";
 
 	/**
 	 * The FlipClock Time class is used to manage all the time
@@ -1243,7 +1243,7 @@ var FlipClock;
 		 */
 
 		constructor: function(factory, time, options) {
-			if(typeof options != "object") {
+			if(typeof options !== "object") {
 				options = {};
 			}
 
@@ -1312,7 +1312,7 @@ var FlipClock;
 			$.each(obj, function(i, value) {
 				value = value.toString();
 
-				if(value.length == 1) {
+				if(value.length === 1) {
 					value = '0'+value;
 				}
 
@@ -1550,7 +1550,7 @@ var FlipClock;
 			var seconds = this.getTimeSeconds();
 
 			if(mod) {
-				if(seconds == 60) {
+				if(seconds === 60) {
 					seconds = 0;
 				}
 				else {
@@ -1681,7 +1681,7 @@ var FlipClock;
 
 (function($) {
 
-	"use strict";
+	// "use strict";
 
 	/**
 	 * The FlipClock.Timer object managers the JS timers
@@ -1974,7 +1974,7 @@ var FlipClock;
 
 		constructor: function(factory, options) {
 
-			if(typeof options != "object") {
+			if(typeof options !== "object") {
 				options = {};
 			}
 
@@ -2329,7 +2329,7 @@ var FlipClock;
 		 */
 
 		flip: function(time, doNotAddPlayClass) {
-			if(this.meridiumText != this.getMeridium()) {
+			if(this.meridiumText !== this.getMeridium()) {
 				this.meridiumText = this.getMeridium();
 				this.meridium.find('a').html(this.meridiumText);
 			}
@@ -2353,7 +2353,7 @@ var FlipClock;
 		 */
 
 		isPM: function() {
-			return this.getMeridium() == 'PM' ? true : false;
+			return this.getMeridium() === 'PM' ? true : false;
 		},
 
 		/**
@@ -2363,7 +2363,7 @@ var FlipClock;
 		 */
 
 		isAM: function() {
-			return this.getMeridium() == 'AM' ? true : false;
+			return this.getMeridium() === 'AM' ? true : false;
 		}
 
 	});
